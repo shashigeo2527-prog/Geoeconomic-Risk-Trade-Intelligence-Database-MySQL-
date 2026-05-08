@@ -1,0 +1,126 @@
+create datAbase geoeconomics_risk_analysis;
+USE GEOECONOMICS_RISK_ANALYSIS;
+CREATE TABLE COUNTRIES(
+COUNTRY_ID INT PRIMARY KEY,
+COUNTRY_NAME VARCHAR(50),
+ISO_CODE VARCHAR(10),
+REGION VARCHAR(50),
+SUBREGION VARCHAR(50),
+GDP_USMILL BIGINT,
+CURRENCY VARCHAR(50),
+POPULATION BIGINT,
+POLITICAL_ALL VARCHAR(50),
+RISK_LEVEL VARCHAR(50)
+);
+SELECT * FROM COUNTRIES;
+CREATE TABLE TRADE_FLOWS(
+TRADE_ID INT PRIMARY KEY,
+YEAR INT,
+IMPORTER_COUNTRY VARCHAR(50),
+EXPORTER_COUNTRY VARCHAR(50),
+COMMODITY VARCHAR(200),
+TRDAE_FLOW  VARCHAR(200),
+TRADE_VALUE BIGINT,
+STRATEGIC_CAT  VARCHAR(200),
+DEPENDENCY_PERCENT FLOAT, 
+SUPPLY_RISK FLOAT,
+VULNERABILITY_SCORE float
+);
+SELECT*FROM TRADE_FLOWS;
+
+CREATE TABLE SANCTIONS(
+SANCTION_ID INT,
+SANCTIONED_ENTITY VARCHAR(255),
+ENTITY_TYPE VARCHAR(60),
+SANCTION_PROGRAM VARCHAR(255),
+COUNTRY VARCHAR(100),
+SANCTIONING_AUTHORITY VARCHAR(100),
+SANCTIONINF_TARGETED VARCHAR(100),
+SEVERITY_SCORE INT,
+SANCTION_YEAR INT
+);
+SELECT*FROM Sanctions;
+
+CREATE TABLE STRATEGICGOODS(
+GOOD_ID INT PRIMARY KEY,
+GOOD_NAME VARCHAR(100), 
+HS_CODE VARCHAR(20),
+CATEGORY VARCHAR(20),
+STRATEGIC_IMP_SCORE INT,
+SUPPLY_RISK int
+);
+
+SELECT*FROM STRATEGICGOODS;
+
+#____________________________________________________________________________________
+select*from countries order by gdp_usmill desc;
+SELECT *
+FROM countries
+WHERE risk_level = 'High'
+AND gdp_usmill < (
+    SELECT AVG(gdp_usmill)
+    FROM countries
+);
+SELECT *
+FROM countries
+WHERE risk_level = 'High'
+AND gdp_usmill < (
+    SELECT AVG(gdp_usmill)
+    FROM countries
+)
+and 
+population > (
+select avg(population)
+from countries);
+
+SELECT *
+FROM countries
+WHERE country_name = 'India';
+#__________________________________________________________________________________
+
+select*from trade_flows;
+select*from trade_flows order by dependency_percent desc;
+select*from trade_flows where strategic_cat = 'energy' order by dependency_percent desc;
+select*from trade_flows where strategic_cat = 'energy' order by vulnerability_score desc;
+SELECT * FROM trade_flows
+WHERE dependency_percent > 50
+ORDER BY dependency_percent DESC;
+sELECT * FROM trade_flows
+WHERE commodity = 'Alkali or alkaline-earth metals; rare-earth metals, scandium and yttrium, whether or not intermixed or interalloyed; mercury';
+SELECT *
+FROM trade_flows
+WHERE importer_country = 'USA'
+OR exporter_country = 'USA';
+
+SELECT commodity,
+       SUM(trade_value) AS total_trade
+FROM trade_flows
+GROUP BY commodity
+ORDER BY total_trade DESC;
+
+#____________________________________________________________
+
+select*from sanctions;
+select*from sanctions where sanctioning_authority= 'OFAC-USA' order by severity_score desc;
+select*from sanctions where sanctioning_authority= 'OFAC-USA' and sanctioninf_targeted= 'military' order by severity_score desc ;
+select*from sanctions where country = 'russia' and SANCTIONINF_TARGETED = 'military' ;
+
+SELECT country,
+       COUNT(*) AS total_sanctions
+FROM sanctions
+GROUP BY country
+ORDER BY total_sanctions DESC;
+
+#______________________________________________
+
+SELECT category,
+       ROUND(AVG(supply_risk),2) AS avg_supply_risk
+FROM strategicgoods
+GROUP BY category
+ORDER BY avg_supply_risk DESC;
+SELECT good_name,
+       strategic_imp_score,
+       supply_risk,
+       (strategic_imp_score + supply_risk) AS combined_risk
+FROM strategicgoods
+ORDER BY combined_risk DESC;
