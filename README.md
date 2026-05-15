@@ -65,6 +65,7 @@ High geopolitical risk
 Lower-than-average GDP
 Higher-than-average population
 
+------
 
 2. Trade Flows Dataset
 Dataset Source
@@ -83,7 +84,7 @@ dependency_percent
 supply_risk
 vulnerability_score
 
-Strategic Commodity Categories Used
+**Strategic Commodity Categories Used**
 The project focused on strategic commodities and critical goods derived from UN Comtrade commodity classifications.
 Major commodities analyzed include:
 Petroleum oils and oils obtained from bituminous minerals
@@ -100,6 +101,7 @@ Energy
 Technology
 Critical Minerals
 Purpose of Dataset
+
 This dataset was used to:
 Analyze international trade dependency
 Identify countries highly dependent on strategic imports
@@ -107,8 +109,8 @@ Study supply chain concentration
 Measure strategic vulnerability in trade flows
 Analyze energy and technology dependence
 
-Dependency Percentage Formula
-Dependency Percentage = (Imports from a specific country / Total imports of commodity) × 100
+**Dependency Percentage Formula
+Dependency Percentage = (Imports from a specific country / Total imports of commodity) × 100**
 
 Higher dependency percentage indicates:
 Greater import concentration
@@ -116,15 +118,14 @@ Greater geopolitical vulnerability
 Greater supply chain dependence
 
 
-Supply Risk Score
-
+**Supply Risk Score**
 The supply risk score represents the strategic and geopolitical risk associated with a commodity.
 Category	Supply Risk Score
 
-Critical Minerals	10
-Technology	9
-Energy	7
-Other	4
+Critical Minerals	|10
+Technology |	9
+Energy	 | 7
+Other |	4
 
 
 The scoring was assigned based on:
@@ -134,9 +135,9 @@ Geopolitical sensitivity
 Global production concentration
 
 
-Vulnerability Score Formula
+**Vulnerability Score Formula
 
-Vulnerability Score = (Dependency Percentage × Supply Risk Score) / 10
+Vulnerability Score = (Dependency Percentage × Supply Risk Score) / 10****
 
 Higher vulnerability score indicates:
 Higher geoeconomic exposure
@@ -144,6 +145,7 @@ Greater strategic dependence
 Increased geopolitical risk
 Higher probability of supply disruption
 
+-----------
 
 3. Sanctions Dataset
 
@@ -164,7 +166,7 @@ severity_score
 sanction_year
 
 
-Severity Score
+**Severity Score**
 The severity score represents the intensity and strategic significance of sanctions.
 Higher severity scores indicate:
 Stronger economic restrictions
